@@ -1,0 +1,12 @@
+OS Windows 10
+
+CPU Intel CORE i3-5005U @2.00GHz
+
+memory(RAM) 4.00GB
+
+systemÅ@64bit
+
+computerÅ@DELL
+
+HDDÅ@452GB
+
