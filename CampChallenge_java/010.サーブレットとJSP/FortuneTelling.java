@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -31,25 +31,25 @@ public class FortuneTelling extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try(PrintWriter out = response.getWriter()){ 
-        
-        String lucklist[] = {"‘å‹g","’†‹g","‹g","”¼‹g","––¬‹g","‹¥","¬‹¥","”¼‹¥","––‹¥","‹¥","‘å‹¥"};
-            
-        Random rand = new Random();
-        
-        Integer index = rand.nextInt(lucklist.length);
-                
-        ResultData data = new ResultData();
-    data.setA(new Date());
-    data.setB(lucklist[index]);
-    request.setAttribute("DATA", data);
-        
-    String result = "/WEB-INF/jsp/FortuneTellingResult.jsp";
-    RequestDispatcher rd = request.getRequestDispatcher(result);
-    rd.forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+
+            String lucklist[] = {"å¤§å‰", "ä¸­å‰", "å‰", "åŠå‰", "æœ«å°å‰", "å‡¶", "å°å‡¶", "åŠå‡¶", "æœ«å‡¶", "å‡¶", "å¤§å‡¶"};
+
+            Random rand = new Random();
+
+            Integer index = rand.nextInt(lucklist.length);
+
+            ResultData data = new ResultData();
+            data.setA(new Date());
+            data.setB(lucklist[index]);
+            request.setAttribute("DATA", data);
+
+            String result = "/WEB-INF/jsp/FortuneTellingResult.jsp";
+            RequestDispatcher rd = request.getRequestDispatcher(result);
+            rd.forward(request, response);
+        }
     }
-}
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -62,6 +62,8 @@ public class FortuneTelling extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.setContentType("text/html; charset=UTF-8");
         processRequest(request, response);
     }
 
