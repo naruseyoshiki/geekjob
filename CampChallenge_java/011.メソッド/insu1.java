@@ -32,9 +32,9 @@ public class insu1 extends HttpServlet {
     pw.print(num);
   
     if((num%2==0)&&(num !=0)){
-     pw.print("‹ô”");
+     pw.print("å¶æ•°");
      }else{
-      pw.print("Šï”");
+      pw.print("å¥‡æ•°");
      }   
     }    
     void process(HttpServletRequest request, HttpServletResponse response)
