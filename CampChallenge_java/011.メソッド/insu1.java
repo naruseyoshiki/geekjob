@@ -31,7 +31,7 @@ public class insu1 extends HttpServlet {
     void kakaku(int num, PrintWriter pw) {
     pw.print(num);
   
-    if((num%2==0)&&(num !=0)){
+    if(num%2==0){
      pw.print("偶数");
      }else{
       pw.print("奇数");
