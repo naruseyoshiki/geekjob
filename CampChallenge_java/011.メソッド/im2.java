@@ -47,7 +47,7 @@ public class im2 extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
                    
         for(int i=0 ; i<=2 ; i++){    //「全体(prof-prof2)」の繰り返し
-          String[] p =modoriti(String.valueOf(i));//メソッド呼び出し＝先に数値から文字列変換
+          String[] p =modoriti(String.valueOf(i+1));//メソッド呼び出し＝先に数値から文字列変換
             for(int j=0 ; j<=2 ; j++){  //「全体」の「特定の情報」の中を繰り返し
            /* if(j==2){
                 continue;
