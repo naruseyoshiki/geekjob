@@ -11,19 +11,19 @@ import java.io.PrintWriter;
  *
  * @author guest1Day
  */
-public class Class1 {
+public class Class1 {     //親クラス
 
-    protected String name = "";
+    protected String name = "";    //フィールド
     protected int age = 0;
 
-    protected void hito1(String n, int a) {
+    protected void hito1(String n, int a) {     //メソッド(引数)
 
-        this.name = n;
-        this.age = a;
+        this.name = n;        //thisで「変数＝フィールド」を指定
+        this.age = a;         //(引数)から2つの変数をそれぞれフィールドに格納
 
     }
 
-    protected void date(PrintWriter out) {
+    protected void date(PrintWriter out) {   //メソッド(画面表示引数)
         out.print("私は"+ name + "です。<br>年齢は" + age +"歳です。");
     }
 }

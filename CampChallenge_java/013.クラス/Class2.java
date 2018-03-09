@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author guest1Day
  */
-public class Class2 extends HttpServlet {
+public class Class2 extends HttpServlet {   //実行クラス
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,11 +31,11 @@ public class Class2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Class1 hito1 = new Class1();
+            Class1 hito1 = new Class1();  //Class1クラスのインスタンス生成(変数hito1)
 
-            hito1.name = "田中";
-            hito1.age = 20;
-            hito1.date(out);
+            hito1.name = "田中";         //(変数)にフィールド、文字列を入れる
+            hito1.age = 20;             //(変数)にフィールド、数値を入れる
+            hito1.date(out);            //(変数)にメソッド、引数を入れる
 
         }
     }
