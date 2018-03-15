@@ -1,0 +1,142 @@
+﻿
+〇導入方法と使い方〇
+
+開発環境は NetBeans(Ver.8.0.2)、JDK 7、GlassFish(Ver.4.1)
+
+●プロジェクトの作成
+
+NetBeansより「ファイル」より「新規プロジェクト」
+※サーバーと設定はデフォルトのままで、「JavaServer Faces」をチェック。
+
+●バッキングビーンを作成
+バッキングビーン...画面をコントロールするためのクラス
+
+プロジェクト内のデフォルトパッケージを右クリック。
+「新規」から「その他」
+※ファイルタイプの選択より、「JSF管理対象Bean」
+名前と場所のスコープより、「view]
+
+～以下クラス名.Javaに記述する～
+
+@ManagedBean		
+@RequestScoped		
+public class HelloBean{
+		
+    private String name;
+    private int age;
+ 
+    private String msg;
+		
+    ～上記フィールドのGetter、Setterを定義～
+		
+    public HelloBean(){		
+    }		
+    		
+    @PostConstruct		
+    public void init(){		
+    }		
+    		
+    public void send(){		
+        this.name = "Hello " + this.name;		
+        return "output.xhtml";		
+    }		
+}
+～ここまで～
+
+@ManagedBeanアノテーションはクラスに任意の名前をつけるアノテーション。
+バッキングビーンを作成する際は必ず指定。
+@ManagedBeanアノテーションのname属性は省略可。
+(省略した場合、デフォルトでクラス名の頭小文字がEL式での参照名になる)
+参照名を別名にしたい場合に設定する。
+例）@ManagedBean(name=”参照名”)
+
+@RequestScopedはバッキングビーンのインスタンスの生存期間を表すスコープです。
+@RequestScopedの場合、リクエストごとにインスタンスが生成、破棄が行われる。
+他にも以下ようなのアノテーションが存在します。
+
+@ApplicationScope・・・アプリケーションが起動してから停止するまで
+@SessionScope・・・ユーザがログインしてからログアウトするまで
+
+@PostConstructアノテーションは、画面の初期表示時に実行したいメソッドを指定する場合に使用。
+（住所の入力フォームとして都道府県のプルダウンリストを作成する場合など）
+
+●入力画面(ファイル名.xhtml)を作成
+プロジェクト内のWebページを右クリックし、「新規」から「その他」
+※ファイルタイプを選択より「JSFページ」
+
+～以下ファイル名.xhtmlより記述～
+
+<?xml version="1.0" encoding="UTF-8"?>	
+<!DOCTYPE html>	
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">	
+    <h:head>	
+        <title>JSFに触れてみよう</title>	
+        <meta charset="utf-8"/>	
+    </h:head>	
+    <h:body>	
+        <h:form>	
+            <h:inputText value="#{helloBean.name}" />	
+            <h:inputText value="#{helloBean.age}" />
+            <h:commandButton value="送信" action="#{helloBean.send()}" />	
+        </h:form>	
+    </h:body>	
+</html>
+
+～ここまで～
+
+xmlns:h=”http://java.sun.com/jsf/html”はFaceletsタグを使うための宣言。
+Faceletsタグとは、「h:」で始まるタグのこと。「h:head」「h:body」などにあたる。
+#{helloBean.xxxxx}のhelloBeanはバッキングビーンを参照します。
+
+●出力画面（ファイル名.xhtml）を作成
+前の「入力画面」と同様に作成。
+
+～以下ファイル名.xhtmlに記述～
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>JSFに触れてみよう</title>
+        <meta charset="utf-8"/>
+    </h:head>
+    <h:body>
+        <h:outputText value="#{helloBean.msg}" />
+    </h:body>
+</html>
+
+～ここまで～
+
+バッキングビーンのmsgの内容が出力される。
+
+●GlassFishより確認
+
+プロジェクトを右クリックし、実行。
+
+URLにアクセスすると画面表示される。
+
+〇特徴〇
+
+JSFはコンポーネントベースのフレームワークであり、Strutsなどのアクションベースとは異なる。
+
+アクションベースのフレームワークについては、Strutsなどの場合URLを元にアクションが決まり、
+そのアクション内で表示する画面が決まる。
+
+コンポーネントベースのフレームワークは、まず表示する画面が決まり、
+それに対応する画面処理クラスが決まる。
+
+JSFはJavaEEに含まれているので、新しくライブラリなどをプロジェクトに追加しなくても使うことができる。
+
+ユーザーインターフェイス（ユーザーが操作する見た目の部分）を
+簡単に作ることができるフレームワークで、Struts（ストラッツ）と同じMVCモデルを採用したフレームワークである。
+※厳密にはStrutsのMVCモデルとはベースが異なる
+
+メリットとしては、開発チームとデザインチームで分業できる特徴があり、
+Strutsに比べて分業が行いやすい特徴がある。
+
+スタンダードに使われている技術で、新しい技術ではないので綺麗なかっこいい画面を作る！ということは
+あまり得意ではないですが、実際利用している企業が多いので仕事としては利用することがある。
+
+JSFはシステム全体のうち見た目に関する部分を提供してくれるので、Javaで見た目を作りながら学ぶことができる。
+
+View側のファイルがxhtml。JavaによるWebアプリケーション開発は、ほとんどJSPで作ることが多い。
