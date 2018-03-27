@@ -9,6 +9,7 @@ and open the template in the editor.
         <title>入力フィールド</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     </head>
     <body>
         <form action="./nyuryoku.jsp" method="post"><!--ファイルURL-->
@@ -16,8 +17,8 @@ and open the template in the editor.
          <input type="text" name="textname"><!--1行テキストボックス-->
          <br>
          性別情報<br>
-         男<input type="radio" name="sei"><br><!--1箇所選択-->
-         女<input type="radio" name="sei"><br>
+         男<input type="radio" name="sei" value="1"><br><!--1箇所選択-->
+         女<input type="radio" name="sei" value="2"><br>
          趣味情報<br>
          <textarea name="syumi"></textarea><br><!--2行以上テキストボックス-->
          <input type="submit" name="sousin" value="送信"><!--送信ボタン-->
