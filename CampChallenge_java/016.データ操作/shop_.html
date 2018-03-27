@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+     
+        <title>shop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <form action="./querystring" method="get"><!--ファイルURL-->
+            <h3>購入商品総額</h3><br><input type="text" name="total">
+            <h3>購入商品総量</h3><br><input type="text" name="count">
+            <h3>商品種別</h3><br>
+            雑貨<input type="radio" name="type" value="1">
+            生鮮食品<input type="radio" name="type" value="2">
+            その他<input type="radio" name="type" value="3">
+            <br><br>
+            <input type="submit" name="sousin" value="送信"><!--送信ボタン-->
+            <input type="reset" name="kesu" value="リセット"><!--記述内容を消去-->
+        </form>
+    </body>
+</html>
