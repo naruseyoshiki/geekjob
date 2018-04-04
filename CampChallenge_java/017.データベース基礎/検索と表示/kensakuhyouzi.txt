@@ -1,0 +1,26 @@
+﻿
+Setting environment for using XAMPP for Windows.
+guest1Day@DELL c:\xampp
+# mysql -u naruse -p
+Enter password: ****
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE Challenge_db
+Database changed
+MariaDB [Challenge_db]> SELECT profilesID,name,tel,age,birthday FROM profilesID = 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '3' at line 1
+MariaDB [Challenge_db]> SELECT profilesID,name,tel,age,birthday FROM profiles WHERE profilesID = 3;
++------------+---------+---------------+------+------------+
+| profilesID | name    | tel           | age  | birthday   |
++------------+---------+---------------+------+------------+
+|          3 | 鈴木 実 | 080-5566-7788 |   24 | 2000-12-24 |
++------------+---------+---------------+------+------------+
+1 row in set (0.12 sec)
+
+MariaDB [Challenge_db]>
