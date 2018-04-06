@@ -48,6 +48,8 @@ public class tablekakunou extends HttpServlet {
                 dbps.setString(3, "045-312-2231");
                 dbps.setInt(4, 21);
                 dbps.setDate(5, Date.valueOf("1996-10-15"));
+                
+                dbps.executeUpdate();
 //操作が終了したら各メソッドをクローズ
                 dbcon.close();
                 dbps.close();
