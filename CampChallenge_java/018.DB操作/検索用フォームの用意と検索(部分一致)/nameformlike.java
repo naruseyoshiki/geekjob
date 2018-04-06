@@ -45,16 +45,16 @@ public class nameformlike extends HttpServlet {
                 //DB接続
                 dbcon = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db", "naruse", "1015");
 
-                //
+                //nameで検索するSQL文
                 String mozi = "select * from profiles where name like ?";
                 
-                //
+                //SQL文取得
                 PreparedStatement dbps = dbcon.prepareStatement(mozi);
 
-                //
+                //SQL文の?にフォーム送信内容と部分一致の処理を格納
                 dbps.setString(1, "%"+Na+"%");
                 
-                //
+                //SQL文を実行
                 ResultSet dbrs = dbps.executeQuery();
                 
                 while (dbrs.next()) {
