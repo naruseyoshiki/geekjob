@@ -1,8 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%
+
+HttpSession hs = request.getSession();
+
+if(hs.getAttribute("access")==null){
+    hs.setAttribute("access","noaccess");
+}
+
+%>
     <title>JUMSトップ</title>
 </head>
 <body>
@@ -11,5 +21,6 @@
         付随して修正や削除を行うことができます</h3><br>
     <a href="insert">新規登録</a><br>
     <a href="" >検索(修正・削除)</a><br>
+    
 </body>
 </html>

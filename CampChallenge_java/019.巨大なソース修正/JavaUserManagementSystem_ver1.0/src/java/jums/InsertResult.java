@@ -1,18 +1,19 @@
 package jums;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.sql.*;
+import java.text.SimpleDateFormat;
+
 /**
- * insertresultと対応するサーブレット
- * フォームから入力された値をセッション経由で受け取り、データベースにinsertする
+ * insertresultと対応するサーブレット フォームから入力された値をセッション経由で受け取り、データベースにinsertする
  * 直接アクセスした場合はerror.jspに振り分け
+ *
  * @author hayashi-s
  */
 public class InsertResult extends HttpServlet {
@@ -28,28 +29,41 @@ public class InsertResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        //セッションスタート
-        HttpSession session = request.getSession();
-        
-        try{
+
+        try {
+
+            //セッションスタート
+            HttpSession session = request.getSession();
+
+            //insertresultにて直リンク防止用の処理
+            request.setCharacterEncoding("UTF-8");
+            String access = request.getParameter("ac");
+            if (access == null || (Integer) session.getAttribute("ac") != Integer.parseInt(access)) {
+                throw new Exception("不正なアクセスです");
+            }
+
             //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
             UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)session.getAttribute("name"));
-            Calendar birthday = Calendar.getInstance();
-            userdata.setBirthday(birthday.getTime());
-            userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
-            userdata.setTell((String)session.getAttribute("tell"));
-            userdata.setComment((String)session.getAttribute("comment"));
-            
+
+            userdata.setName((String) session.getAttribute("name"));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+            java.util.Date jud = sdf.parse((String) session.getAttribute("birthday"));
+
+            userdata.setBirthday(jud);
+            userdata.setType(Integer.parseInt((String) session.getAttribute("type")));
+            userdata.setTell((String) session.getAttribute("tell"));
+            userdata.setComment((String) session.getAttribute("comment"));
+
             //DBへデータの挿入
-            UserDataDAO .getInstance().insert(userdata);
-            
+            UserDataDAO.getInstance().insert(userdata);
+
             request.getRequestDispatcher("/insertresult.jsp").forward(request, response);
-        }catch(Exception e){
+        } catch (Exception e) {
             //データ挿入に失敗したらエラーページにエラー文を渡して表示
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
+            
         }
     }
 

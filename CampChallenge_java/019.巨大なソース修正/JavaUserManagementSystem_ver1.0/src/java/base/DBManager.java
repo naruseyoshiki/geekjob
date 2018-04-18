@@ -7,6 +7,7 @@ package base;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 public class DBManager {
     public static Connection getConnection(){
         Connection con = null;
@@ -19,6 +20,7 @@ public class DBManager {
             throw new IllegalMonitorStateException();
         } catch (SQLException e) {
             throw new IllegalMonitorStateException();
+            
         }
     }
 }

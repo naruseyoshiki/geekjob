@@ -66,6 +66,7 @@ public class UserDataDTO {
     }
     public void setNewDate(Timestamp newDate) {
         this.newDate = newDate;
+        
     }
 
 }

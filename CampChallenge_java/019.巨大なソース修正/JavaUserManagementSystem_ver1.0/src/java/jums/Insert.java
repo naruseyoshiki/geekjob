@@ -26,7 +26,8 @@ public class Insert extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setAttribute("ac", (int) (Math.random() * 1000));
-        request.getRequestDispatcher("/insert.jsp").forward(request, response);   
+        request.getRequestDispatcher("/insert.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

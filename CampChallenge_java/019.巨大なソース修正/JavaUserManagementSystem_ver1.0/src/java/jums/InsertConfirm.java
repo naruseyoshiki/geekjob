@@ -1,6 +1,7 @@
 package jums;
 
 import java.io.IOException;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * insertconfirm.jspと対応するサーブレット
- * フォーム入力された情報はここでセッションに格納し、以降持ちまわることになる
+ * insertconfirm.jspと対応するサーブレット フォーム入力された情報はここでセッションに格納し、以降持ちまわることになる
  * 直接アクセスした場合はerror.jspに振り分け
+ *
  * @author hayashi-s
  */
 public class InsertConfirm extends HttpServlet {
@@ -26,39 +27,41 @@ public class InsertConfirm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
+        try {
             HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+            if (accesschk == null || (Integer) session.getAttribute("ac") != Integer.parseInt(accesschk)) {
                 throw new Exception("不正なアクセスです");
             }
-            
+
+            Date birthday = Date.valueOf(request.getParameter("year") + "年"
+                    + request.getParameter("month") + "月"
+                    + request.getParameter("day") + "日");
+
             //フォームからの入力を取得
-            String name = request.getParameter("name");
-            String year = request.getParameter("year");
-            String month = request.getParameter("month");
-            String day = request.getParameter("day");
-            String type = request.getParameter("type");
-            String tell = request.getParameter("tell");
-            String comment = request.getParameter("comment");
+            UserDateBeans udb = new UserDateBeans();
+
+            udb.setname(request.getParameter("name"));
+            udb.setbirthday(birthday);
+            udb.setyear(Date.valueOf(request.getParameter("year")));
+            udb.setmonth(Date.valueOf(request.getParameter("month")));
+            udb.setday(Date.valueOf(request.getParameter("day")));
+            udb.settype(Integer.parseInt(request.getParameter("type")));
+            udb.settell(request.getParameter("tell"));
+            udb.setcomment(request.getParameter("comment"));
 
             //セッションに格納
-            session.setAttribute("name", name);
-            session.setAttribute("year", year);
-            session.setAttribute("month",month);
-            session.setAttribute("day", day);
-            session.setAttribute("type", type);
-            session.setAttribute("tell", tell);
-            session.setAttribute("comment", comment);
+            session.setAttribute("udbDate", udb);
             System.out.println("Session updated!!");
-            
+
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);
-        }catch(Exception e){
+        } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
-        }
             
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
