@@ -1,12 +1,12 @@
 package jums;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author hayashi-s
@@ -27,14 +27,30 @@ public class ResultDetail extends HttpServlet {
         try{
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
 
-            //DTOオブジェクトにマッピング。DB専用のパラメータに変換
-            UserDataDTO searchData = new UserDataDTO();
-            searchData.setUserID(2);
-
-            UserDataDTO resultData = UserDataDAO .getInstance().searchByID(searchData);
-            request.setAttribute("resultData", resultData);
+            //〇現在のIDを取得
+            int upid = Integer.parseInt(request.getParameter("id"));
             
-            request.getRequestDispatcher("/resultdetail.jsp").forward(request, response);  
+            //〇セッション取得
+            HttpSession session = request.getSession();
+            
+            //〇セッションに更新用として現在のIDを保存
+            session.setAttribute("userID",upid);
+            
+            //〇DTOに現在のIDを格納
+            UserDataDTO searchData = new UserDataDTO();
+            searchData.setUserID(upid);
+            
+            //〇DAOにてIDの検索(searchByIDメソッド)
+            UserDataDTO resultDatail = UserDataDAO .getInstance().searchByID(searchData);
+            
+            //〇セッションに検索結果IDを格納
+            //削除時にこのID情報を表示
+            session.setAttribute("resultDatail", resultDatail);
+            
+            //〇検索結果IDを取得
+            request.setAttribute("resultDatail", resultDatail); 
+            request.getRequestDispatcher("/resultdetail.jsp").forward(request, response);
+            
         }catch(Exception e){
             //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
             request.setAttribute("error", e.getMessage());

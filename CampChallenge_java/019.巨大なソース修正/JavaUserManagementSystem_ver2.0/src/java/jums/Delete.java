@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author hayashi-s
@@ -27,16 +29,18 @@ public class Delete extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Delete</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Delete at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            //〇セッションを取得
+            HttpSession session = request.getSession();
+            
+            //〇標準文字コードを取得
+            request.setCharacterEncoding("UTF-8");
+            
+            //〇リクエストディスパッチャーで指定ファイルに送信
+            request.getRequestDispatcher("/delete.jsp").forward(request, response);
+            
+        }catch(Exception e){
+            request.setAttribute("error",e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         } finally {
             out.close();
         }

@@ -1,12 +1,13 @@
 package jums;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -26,19 +27,39 @@ public class SearchResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
+            //〇検索結果画面へ戻るボタンのためセッションスタート
+            HttpSession session = request.getSession();
+            
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
+            
+            //〇直リンク防止のアクセスチェック
+            String accesschk = request.getParameter("ac");
+            if(accesschk == null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+               throw new Exception("不正なアクセスです。"); 
+            }
         
+            //〇セッションにフォームの値を格納
+            //検索結果画面へ戻るボタンのために作成
+            session.setAttribute("Sname", request.getParameter("name"));
+            session.setAttribute("Syear", request.getParameter("year"));
+            session.setAttribute("Stype", request.getParameter("type"));
+            
+            
             //フォームからの入力を取得して、JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
             udb.setName(request.getParameter("name"));
             udb.setYear(request.getParameter("year"));
             udb.setType(request.getParameter("type"));
 
+            //〇JavaBeansに格納した値をセッションに格納
+            session.setAttribute("udb", udb);
+                    
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
             udb.UD2DTOMapping(searchData);
 
-            UserDataDTO resultData = UserDataDAO .getInstance().search(searchData);
+            //〇DAOの検索処理までと、DTOの各値を格納する
+            ArrayList <UserDataDTO> resultData = UserDataDAO .getInstance().search(searchData);
             request.setAttribute("resultData", resultData);
             
             request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  

@@ -10,6 +10,8 @@ public class JumsHelper {
     
     //トップへのリンクを定数として設定
     private final String homeURL = "index.jsp";
+    //〇検索結果画面へ戻るリンクを定数として設定
+    private final String searchresult = "searchresult.jsp";
     
     public static JumsHelper getInstance(){
         return new JumsHelper();
@@ -20,6 +22,10 @@ public class JumsHelper {
         return "<a href=\""+homeURL+"\">トップへ戻る</a>";
     }
     
+    //〇検索結果画面へ戻る
+    public String Sr(){
+        return "<a href=\""+searchresult+"\">検索結果画面へ戻る</a>";
+    }
     /**
      * 入力されたデータのうち未入力項目がある場合、チェックリストにしたがいどの項目が
      * 未入力なのかのhtml文を返却する

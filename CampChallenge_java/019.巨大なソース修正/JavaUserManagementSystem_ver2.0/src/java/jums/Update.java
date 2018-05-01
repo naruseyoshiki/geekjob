@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author hayashi-s
@@ -27,16 +29,25 @@ public class Update extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Update</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Update at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            //〇セッションを取得
+            HttpSession session = request.getSession();
+            
+            //〇文字コードを変更(原則)
+            request.setCharacterEncoding("UTF-8");
+            
+            //〇詳細情報を持つセッションをDTOに代入
+            UserDataDTO udd = (UserDataDTO) session.getAttribute("resultDatail");
+            
+            //〇詳細情報をリクエストディスパッチャーで送信
+            request.setAttribute("resultDatail",udd);
+            request.getRequestDispatcher("/Updata.jsp").forward(request, response);
+            
+        } catch(Exception e) {
+            
+            //〇何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            
         } finally {
             out.close();
         }

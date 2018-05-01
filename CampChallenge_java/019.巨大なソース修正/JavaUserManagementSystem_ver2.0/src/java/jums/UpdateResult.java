@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author hayashi-s
@@ -27,16 +29,43 @@ public class UpdateResult extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateResult</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateResult at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            //〇セッションを取得
+            HttpSession session = request.getSession();
+
+            //〇標準文字コードを取得
+            request.setCharacterEncoding("UTF-8");
+
+            //〇送信フォームから各情報をudbに格納
+            UserDataBeans udb = new UserDataBeans();
+            udb.setName(request.getParameter("name"));
+            udb.setYear(request.getParameter("year"));
+            udb.setMonth(request.getParameter("month"));
+            udb.setDay(request.getParameter("day"));
+            udb.setTell(request.getParameter("tell"));
+            udb.setType(request.getParameter("type"));
+            udb.setComment(request.getParameter("comment"));
+
+            //〇UserIDはセッションから取得し、udbに格納
+            String ID = session.getAttribute("userID").toString();
+            udb.setuserID(ID);
+
+            //〇DTOを宣言し、udbに格納する
+            UserDataDTO userData = new UserDataDTO();
+            udb.UD2DTOMapping(userData);
+
+            //〇DAOの更新用メソッドupdateに送信フォームの情報を送る
+            UserDataDAO.getInstance().update(userData);
+
+            //〇セッションに更新情報を格納
+            session.setAttribute("updateData", udb);
+
+            //〇更新情報をリクエストディスパッチャーで指定ファイルに送る
+            request.setAttribute("updateData", udb);
+            request.getRequestDispatcher("/updateresult.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         } finally {
             out.close();
         }
